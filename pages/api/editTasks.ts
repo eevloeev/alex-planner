@@ -25,15 +25,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const bodyValidation = requestBodySchema.validate(req.body, {
-    abortEarly: false,
-  })
+  if (req.method === "POST") {
+    const bodyValidation = requestBodySchema.validate(req.body, {
+      abortEarly: false,
+    })
 
-  if (bodyValidation.error) {
-    res.status(httpStatus.BAD_REQUEST).json(bodyValidation.error.details)
-    return
+    if (bodyValidation.error) {
+      res.status(httpStatus.BAD_REQUEST).json(bodyValidation.error.details)
+      return
+    }
+
+    await writeStore("tasks", req.body.tasks)
+    res.status(200).end()
+  } else {
+    res.status(404).end()
   }
-
-  await writeStore("tasks", req.body.tasks)
-  res.status(200).end()
 }

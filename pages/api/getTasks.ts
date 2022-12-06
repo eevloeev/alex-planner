@@ -9,6 +9,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const tasks = await getStore("tasks")
-  res.json(tasks)
+  if (req.method === "GET") {
+    const tasks = await getStore("tasks")
+    res.json(tasks)
+  } else {
+    res.status(404).end()
+  }
 }
