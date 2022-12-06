@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next"
 import { writeStore } from "services/storeService"
-import Task from "types/Task"
 import Joi from "joi"
 import httpStatus from "http-status"
 
