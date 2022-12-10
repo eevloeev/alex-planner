@@ -1,7 +1,10 @@
-export interface ColumnTitleProps {
+interface ColumnTitleProps {
   children: React.ReactNode
 }
 
-export function ColumnTitle({ children }: ColumnTitleProps) {
+function ColumnTitle({ children }: ColumnTitleProps) {
   return <div>{children}</div>
 }
+
+export { ColumnTitle }
+export type { ColumnTitleProps }

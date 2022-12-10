@@ -4,7 +4,39 @@ import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
+import { useEffect, useReducer } from "react"
+import { apiRequest } from "utilities/apiRequest"
+import { taskReducer } from "contexts/tasks/taskReducer"
+import { MapTaskAction } from "types/MapTaskAction"
+import { TaskProvider } from "contexts/tasks/taskContext"
+import { apiRoutes } from "const/api-routes"
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function App({ Component, pageProps }: AppProps) {
+  const initialTaskState = {
+    tasks: [],
+    dispatch: () => {},
+  }
+  const [taskState, dispatchTasks] = useReducer(taskReducer, initialTaskState)
+
+  useEffect(() => {
+    apiRequest(apiRoutes.v1.getTasks).then((response) => {
+      dispatchTasks({
+        type: MapTaskAction.SET_TASKS,
+        payload: response.data,
+      })
+    })
+  }, [])
+
+  const taskContextValue = {
+    tasks: taskState.tasks,
+    dispatch: dispatchTasks,
+  }
+
+  return (
+    <TaskProvider value={taskContextValue}>
+      <Component {...pageProps} />
+    </TaskProvider>
+  )
 }
+
+export default App
