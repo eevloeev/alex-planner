@@ -1,11 +1,11 @@
 type Task = {
-  id: String
-  content: String
-  order: Number
-  isTemplate: Boolean
-  day: Number
-  isImportant: Boolean
-  isDone: Boolean
+  id: string
+  content: string
+  order: number
+  isTemplate: boolean
+  day: number
+  isImportant: boolean
+  isDone: boolean
 }
 
-export default Task
+export type { Task }
