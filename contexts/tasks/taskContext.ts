@@ -14,4 +14,4 @@ function useTasks() {
   return useContext(taskContext)
 }
 
-export { taskContext, TaskProvider, TaskConsumer, useTasks }
+export { TaskProvider, TaskConsumer, useTasks }
