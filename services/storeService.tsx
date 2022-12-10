@@ -5,7 +5,7 @@ function getStorePath(name: String) {
   return path.join(process.cwd(), `store/${name}.json`)
 }
 
-export async function getStore(name: String) {
+async function getStore(name: String) {
   const path = getStorePath(name)
 
   const isExists = await fs.existsSync(path)
@@ -18,17 +18,19 @@ export async function getStore(name: String) {
   return JSON.parse(data)
 }
 
-export async function writeStore(name: String, data: Object) {
+async function writeStore(name: String, data: Object) {
   const path = getStorePath(name)
   await fs.writeFileSync(path, JSON.stringify(data))
 }
 
-export async function getStoreList() {
+async function getStoreList() {
   const dir = path.join(process.cwd(), `store`)
-  const list: Array<String> = []
+  const list: String[] = []
   fs.readdirSync(dir).forEach((file) => {
     const name = file.replace(".json", "")
     list.push(name)
   })
   return list
 }
+
+export { getStore, writeStore, getStoreList }

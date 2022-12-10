@@ -20,10 +20,7 @@ const requestBodySchema = Joi.object({
     .required(),
 })
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const bodyValidation = requestBodySchema.validate(req.body, {
       abortEarly: false,
@@ -40,3 +37,5 @@ export default async function handler(
     res.status(404).end()
   }
 }
+
+export default handler

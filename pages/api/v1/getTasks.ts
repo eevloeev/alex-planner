@@ -1,14 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getStore } from "services/storeService"
-import Task from "types/Task"
+import { Task } from "types/Task"
 
 type Data = [Task]
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (req.method === "GET") {
     const tasks = await getStore("tasks")
     res.json(tasks)
@@ -16,3 +13,5 @@ export default async function handler(
     res.status(404).end()
   }
 }
+
+export default handler
