@@ -45,8 +45,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return
     }
 
-    await writeStore("tasks", req.body.tasks)
-    res.status(200).end()
+    const tasks = req.body.tasks
+    await writeStore("tasks", tasks)
+    res.json(tasks)
   } else {
     res.status(404).end()
   }
