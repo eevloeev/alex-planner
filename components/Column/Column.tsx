@@ -26,7 +26,7 @@ import { apiRequest } from "utils/apiRequest"
 import { apiRoutes } from "const/apiRoutes"
 import { useTasks } from "contexts/tasks/taskContext"
 import { MapTaskAction } from "types/MapTaskAction"
-import { daysTranslate } from "const/days"
+import { daysTranslate, daysDeleteTranslate } from "const/days"
 import { v4 as uuidv4 } from "uuid"
 import { Task } from "types/Task"
 
@@ -176,8 +176,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
       >
         <DialogTitle>
           <Typography variant="body1">
-            Вы хотите удалить все задачи на{" "}
-            {daysTranslate[dayOfWeek].toLowerCase()}?
+            {daysDeleteTranslate[dayOfWeek]}
           </Typography>
         </DialogTitle>
         <DialogActions>

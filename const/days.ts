@@ -18,4 +18,18 @@ const translate = {
   [days.SUNDAY]: "Воскресенье",
 }
 
-export { days, translate as daysTranslate }
+const deleteTranslate = {
+  [days.MONDAY]: "Удалить все задачи с понедельника?",
+  [days.TUESDAY]: "Удалить все задачи со вторника?",
+  [days.WEDNESDAY]: "Удалить все задачи со среды?",
+  [days.THURSDAY]: "Удалить все задачи с четверга?",
+  [days.FRIDAY]: "Удалить все задачи с пятницы?",
+  [days.SATURDAY]: "Удалить все задачи с субботы?",
+  [days.SUNDAY]: "Удалить все задачи с воскресенья?",
+}
+
+export {
+  days,
+  translate as daysTranslate,
+  deleteTranslate as daysDeleteTranslate,
+}
