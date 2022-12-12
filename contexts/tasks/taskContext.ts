@@ -2,7 +2,16 @@ import { createContext, useContext } from "react"
 import { TaskContext as TaskContextType } from "types/TaskContext"
 
 const initialState: TaskContextType = {
-  tasks: [],
+  tasks: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+    sunday: [],
+    templates: [],
+  },
   dispatch: () => {},
 }
 

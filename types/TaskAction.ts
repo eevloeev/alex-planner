@@ -1,7 +1,7 @@
 import { MapTaskAction } from "types/MapTaskAction"
 
 type TaskAction = {
-  type: MapTaskAction.SET_TASKS
+  type: MapTaskAction
   payload: any
 }
 

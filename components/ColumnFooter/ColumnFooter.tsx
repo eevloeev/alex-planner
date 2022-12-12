@@ -2,11 +2,12 @@ import { Box, IconButton, Stack, Typography } from "@mui/material"
 import { MouseEventHandler, useMemo } from "react"
 import DeleteIcon from "@mui/icons-material/Delete"
 import AddIcon from "@mui/icons-material/Add"
+import { getDayByName } from "utils/getDayByName"
 
 interface ColumnFooterProps {
-  totalCount: Number
-  importantCount: Number
-  dayOfWeek?: Number
+  totalCount: number
+  importantCount: number
+  dayOfWeek?: string
   onDelete: MouseEventHandler<HTMLButtonElement>
   onAdd: MouseEventHandler<HTMLButtonElement>
 }
@@ -19,7 +20,7 @@ function ColumnFooter({
   onAdd,
 }: ColumnFooterProps) {
   const isCurrentDay = useMemo(
-    () => new Date().getDay() === dayOfWeek,
+    () => (dayOfWeek ? new Date().getDay() === getDayByName(dayOfWeek) : false),
     [dayOfWeek]
   )
 

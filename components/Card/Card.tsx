@@ -19,8 +19,8 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { useTasks } from "contexts/tasks/taskContext"
 import { MapTaskAction } from "types/MapTaskAction"
-import { apiRequest } from "utilities/apiRequest"
-import { apiRoutes } from "const/api-routes"
+import { apiRequest } from "utils/apiRequest"
+import { apiRoutes } from "const/apiRoutes"
 
 interface CardProps {
   task: Task
@@ -54,13 +54,19 @@ function Card({ task }: CardProps) {
   }, [setContextMenu])
 
   const toggleIsDone = useCallback(() => {
-    const newTasks = [
-      ...tasks.filter((i) => i.id !== task.id),
-      {
-        ...task,
-        isDone: !task.isDone,
-      },
-    ]
+    const newTasks = {
+      ...tasks,
+      [task.day]: [
+        ...tasks[task.day as keyof typeof tasks].map((i) =>
+          i.id === task.id
+            ? {
+                ...task,
+                isDone: !task.isDone,
+              }
+            : i
+        ),
+      ],
+    }
     apiRequest({
       ...apiRoutes.v1.editTasks,
       data: {
@@ -81,13 +87,19 @@ function Card({ task }: CardProps) {
   }, [tasks, task, dispatchTasks, handleClose])
 
   const toggleIsImportant = useCallback(() => {
-    const newTasks = [
-      ...tasks.filter((i) => i.id !== task.id),
-      {
-        ...task,
-        isImportant: !task.isImportant,
-      },
-    ]
+    const newTasks = {
+      ...tasks,
+      [task.day]: [
+        ...tasks[task.day as keyof typeof tasks].map((i) =>
+          i.id === task.id
+            ? {
+                ...task,
+                isImportant: !task.isImportant,
+              }
+            : i
+        ),
+      ],
+    }
     apiRequest({
       ...apiRoutes.v1.editTasks,
       data: {
@@ -108,7 +120,14 @@ function Card({ task }: CardProps) {
   }, [tasks, task, dispatchTasks, handleClose])
 
   const deleteTask = useCallback(() => {
-    const newTasks = [...tasks.filter((i) => i.id !== task.id)]
+    const newTasks = {
+      ...tasks,
+      [task.day]: [
+        ...tasks[task.day as keyof typeof tasks].filter(
+          (i) => i.id !== task.id
+        ),
+      ],
+    }
     apiRequest({
       ...apiRoutes.v1.editTasks,
       data: {
@@ -140,7 +159,6 @@ function Card({ task }: CardProps) {
       sx={{
         padding: 2,
         backgroundColor: task.isImportant ? "#EE8B8B" : "none",
-        position: "relative",
         transition: ".2s background-color",
         ":hover": {
           "& .actions": {

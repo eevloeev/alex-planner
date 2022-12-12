@@ -1,14 +1,15 @@
 import { Box, Typography } from "@mui/material"
 import { useMemo } from "react"
+import { getDayByName } from "utils/getDayByName"
 
 interface ColumnTitleProps {
   children: React.ReactNode
-  dayOfWeek?: Number
+  dayOfWeek?: string
 }
 
-function ColumnTitle({ children, dayOfWeek = -1 }: ColumnTitleProps) {
+function ColumnTitle({ children, dayOfWeek }: ColumnTitleProps) {
   const isCurrentDay = useMemo(
-    () => new Date().getDay() === dayOfWeek,
+    () => (dayOfWeek ? new Date().getDay() === getDayByName(dayOfWeek) : false),
     [dayOfWeek]
   )
 

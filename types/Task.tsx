@@ -1,9 +1,15 @@
 type Task = {
   id: string
   content: string
-  order: number
   isTemplate: boolean
-  day: number
+  day:
+    | "monday"
+    | "tuesday"
+    | "wednesday"
+    | "thursday"
+    | "friday"
+    | "saturday"
+    | "sunday"
   isImportant: boolean
   isDone: boolean
 }

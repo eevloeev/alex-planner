@@ -1,11 +1,21 @@
 const days = {
-  MONDAY: 0,
-  TUESDAY: 1,
-  WEDNESDAY: 2,
-  THURSDAY: 3,
-  FRIDAY: 4,
-  SATURDAY: 5,
-  SUNDAY: 6,
+  MONDAY: "monday",
+  TUESDAY: "tuesday",
+  WEDNESDAY: "wednesday",
+  THURSDAY: "thursday",
+  FRIDAY: "friday",
+  SATURDAY: "saturday",
+  SUNDAY: "sunday",
 }
 
-export { days }
+const translate = {
+  [days.MONDAY]: "Понедельник",
+  [days.TUESDAY]: "Вторник",
+  [days.WEDNESDAY]: "Среда",
+  [days.THURSDAY]: "Четверг",
+  [days.FRIDAY]: "Пятница",
+  [days.SATURDAY]: "Суббота",
+  [days.SUNDAY]: "Воскресенье",
+}
+
+export { days, translate as daysTranslate }

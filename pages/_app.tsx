@@ -6,15 +6,24 @@ import "@fontsource/roboto/700.css"
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
 import { useEffect, useReducer } from "react"
-import { apiRequest } from "utilities/apiRequest"
+import { apiRequest } from "utils/apiRequest"
 import { taskReducer } from "contexts/tasks/taskReducer"
 import { MapTaskAction } from "types/MapTaskAction"
 import { TaskProvider } from "contexts/tasks/taskContext"
-import { apiRoutes } from "const/api-routes"
+import { apiRoutes } from "const/apiRoutes"
 
 function App({ Component, pageProps }: AppProps) {
   const initialTaskState = {
-    tasks: [],
+    tasks: {
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+      saturday: [],
+      sunday: [],
+      templates: [],
+    },
     dispatch: () => {},
   }
   const [taskState, dispatchTasks] = useReducer(taskReducer, initialTaskState)
