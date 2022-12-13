@@ -122,10 +122,10 @@ function Card({ task }: CardProps) {
   const deleteTask = useCallback(() => {
     const newTasks = {
       ...tasks,
-      [task.day]: [
-        ...tasks[task.day as keyof typeof tasks].filter(
-          (i) => i.id !== task.id
-        ),
+      [task.isTemplate ? "templates" : task.day]: [
+        ...tasks[
+          task.isTemplate ? "templates" : (task.day as keyof typeof tasks)
+        ].filter((i) => i.id !== task.id),
       ],
     }
     apiRequest({
@@ -159,6 +159,7 @@ function Card({ task }: CardProps) {
       sx={{
         padding: 2,
         backgroundColor: task.isImportant ? "#EE8B8B" : "none",
+        opacity: task.isDone ? ".5" : "1",
         transition: ".2s background-color",
         ":hover": {
           "& .actions": {

@@ -163,8 +163,10 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
       </Stack>
       {footer ?? (
         <ColumnFooter
-          totalCount={filteredTasks.length}
-          importantCount={filteredTasks.filter((i) => i.isImportant).length}
+          totalCount={filteredTasks.filter((i) => !i.isDone).length}
+          importantCount={
+            filteredTasks.filter((i) => i.isImportant && !i.isDone).length
+          }
           dayOfWeek={dayOfWeek}
           onDelete={() => {
             setDeleteDialogIsOpen(true)
