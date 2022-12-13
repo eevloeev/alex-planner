@@ -141,7 +141,7 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
         spacing={2}
         sx={{
           padding: 1,
-          paddingBottom: 9,
+          paddingBottom: 10,
           height: "100%",
           overflowY: "auto",
         }}

@@ -26,11 +26,20 @@ function ColumnFooter({
   )
 
   return (
-    <Box sx={{ textAlign: "center", marginTop: "auto" }}>
+    <Box sx={{ textAlign: "center", marginTop: "auto", position: "relative" }}>
       <Stack
         direction="row"
         spacing={2}
-        sx={{ padding: 1, justifyContent: "center" }}
+        sx={{
+          padding: 1,
+          justifyContent: "center",
+          position: "absolute",
+          bottom: "100%",
+          left: 0,
+          right: 0,
+          background:
+            "linear-gradient(to top, #ffffffff 65%, #ffffff77 80%, transparent)",
+        }}
       >
         <IconButton onClick={onDelete}>
           <DeleteIcon color="error" />
