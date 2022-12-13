@@ -10,8 +10,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import { ColumnFooter } from "components/ColumnFooter"
-import { ColumnTitle } from "components/ColumnTitle"
 import { Card } from "components/Card"
 import {
   ChangeEvent,
@@ -26,17 +24,18 @@ import { apiRequest } from "utils/apiRequest"
 import { apiRoutes } from "const/apiRoutes"
 import { useTasks } from "contexts/tasks/taskContext"
 import { MapTaskAction } from "types/MapTaskAction"
-import { daysTranslate, daysDeleteTranslate } from "const/days"
 import { v4 as uuidv4 } from "uuid"
+import { ColumnTitleTemplates } from "components/ColumnTitleTemplates"
+import { ColumnFooterTemplates } from "components/ColumnFooterTemplates"
+import { initialTaskState } from "pages/_app"
 
-interface ColumnProps {
+interface ColumnTemplatesProps {
   sx?: SxProps
-  dayOfWeek: string
   footer?: ReactNode
   setError: Dispatch<any>
 }
 
-function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
+function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
   const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const [inputIsOpen, setInputIsOpen] = useState(false)
@@ -53,16 +52,16 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
   const createTask = (content: string) => {
     const newTasks = {
       ...tasks,
-      [dayOfWeek]: [
+      templates: [
         {
           id: uuidv4(),
           content,
-          isTemplate: false,
-          day: dayOfWeek,
-          isImportant: false,
-          isDone: false,
+          isTemplate: true,
+          day: null,
+          isImportant: null,
+          isDone: null,
         },
-        ...tasks[dayOfWeek as keyof typeof tasks],
+        ...tasks["templates"],
       ],
     }
     apiRequest({
@@ -93,9 +92,12 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
     }
   }
 
-  const onDeleteByDayHandle = useCallback(() => {
+  const onDeleteAllHandle = useCallback(() => {
     setDeleteDialogIsOpen(false)
-    const newTasks = { ...tasks, [dayOfWeek]: [] }
+    const newTasks = {
+      ...initialTaskState.tasks,
+      templates: tasks["templates"],
+    }
     apiRequest({
       ...apiRoutes.v1.editTasks,
       data: {
@@ -112,16 +114,13 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
         console.error(error)
         setError({ ...error, isOpen: true })
       })
-  }, [tasks, dispatchTasks, setError, dayOfWeek])
+  }, [tasks, dispatchTasks, setError])
 
   const onAddHandle = useCallback(() => {
     setInputIsOpen(true)
   }, [])
 
-  const filteredTasks = useMemo(
-    () => tasks[dayOfWeek as keyof typeof tasks],
-    [tasks, dayOfWeek]
-  )
+  const filteredTasks = useMemo(() => tasks["templates"], [tasks])
 
   return (
     <Grid
@@ -132,16 +131,20 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
         display: "flex",
         flexDirection: "column",
         height: "100%",
+        position: "relative",
         ...sx,
       }}
     >
-      <ColumnTitle dayOfWeek={dayOfWeek}>
-        {daysTranslate[dayOfWeek]}
-      </ColumnTitle>
+      <ColumnTitleTemplates>ХАБ</ColumnTitleTemplates>
       <Stack
         direction="column"
         spacing={2}
-        sx={{ padding: 1, height: "100%", overflowY: "auto" }}
+        sx={{
+          padding: 1,
+          paddingBottom: 9,
+          height: "100%",
+          overflowY: "auto",
+        }}
       >
         {inputIsOpen && (
           <Paper sx={{ padding: 2 }}>
@@ -162,10 +165,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
         ))}
       </Stack>
       {footer ?? (
-        <ColumnFooter
-          totalCount={filteredTasks.length}
-          importantCount={filteredTasks.filter((i) => i.isImportant).length}
-          dayOfWeek={dayOfWeek}
+        <ColumnFooterTemplates
           onDelete={() => {
             setDeleteDialogIsOpen(true)
           }}
@@ -180,7 +180,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
       >
         <DialogTitle>
           <Typography variant="body1">
-            {daysDeleteTranslate[dayOfWeek]}
+            Вы действительно хотите удалить все задачи?
           </Typography>
         </DialogTitle>
         <DialogActions>
@@ -191,7 +191,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
           >
             Отмена
           </Button>
-          <Button onClick={onDeleteByDayHandle} autoFocus>
+          <Button onClick={onDeleteAllHandle} autoFocus>
             Да
           </Button>
         </DialogActions>
@@ -200,4 +200,4 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
   )
 }
 
-export { Column }
+export { ColumnTemplates }

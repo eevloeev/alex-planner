@@ -9,7 +9,8 @@ interface ColumnTitleProps {
 
 function ColumnTitle({ children, dayOfWeek }: ColumnTitleProps) {
   const isCurrentDay = useMemo(
-    () => (dayOfWeek ? new Date().getDay() === getDayByName(dayOfWeek) : false),
+    () =>
+      dayOfWeek ? new Date().getDay() - 1 === getDayByName(dayOfWeek) : false,
     [dayOfWeek]
   )
 

@@ -184,22 +184,26 @@ function Card({ task }: CardProps) {
             : undefined
         }
       >
-        <MenuItem onClick={toggleIsDone}>
-          <ListItemIcon>
-            <DoneIcon fontSize="small" color="success" />
-          </ListItemIcon>
-          <ListItemText>
-            {task.isDone ? "Не выполнено" : "Выполнено"}
-          </ListItemText>
-        </MenuItem>
-        <MenuItem onClick={toggleIsImportant}>
-          <ListItemIcon>
-            <LocalFireDepartmentIcon fontSize="small" color="warning" />
-          </ListItemIcon>
-          <ListItemText>
-            {task.isImportant ? "Не важное" : "Важное"}
-          </ListItemText>
-        </MenuItem>
+        {!task.isTemplate && (
+          <>
+            <MenuItem onClick={toggleIsDone}>
+              <ListItemIcon>
+                <DoneIcon fontSize="small" color="success" />
+              </ListItemIcon>
+              <ListItemText>
+                {task.isDone ? "Не выполнено" : "Выполнено"}
+              </ListItemText>
+            </MenuItem>
+            <MenuItem onClick={toggleIsImportant}>
+              <ListItemIcon>
+                <LocalFireDepartmentIcon fontSize="small" color="warning" />
+              </ListItemIcon>
+              <ListItemText>
+                {task.isImportant ? "Не важное" : "Важное"}
+              </ListItemText>
+            </MenuItem>
+          </>
+        )}
         <MenuItem onClick={deleteTask}>
           <ListItemIcon>
             <DeleteIcon fontSize="small" color="error" />

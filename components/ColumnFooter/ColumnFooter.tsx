@@ -20,7 +20,8 @@ function ColumnFooter({
   onAdd,
 }: ColumnFooterProps) {
   const isCurrentDay = useMemo(
-    () => (dayOfWeek ? new Date().getDay() === getDayByName(dayOfWeek) : false),
+    () =>
+      dayOfWeek ? new Date().getDay() - 1 === getDayByName(dayOfWeek) : false,
     [dayOfWeek]
   )
 

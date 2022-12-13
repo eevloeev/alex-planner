@@ -12,20 +12,21 @@ import { MapTaskAction } from "types/MapTaskAction"
 import { TaskProvider } from "contexts/tasks/taskContext"
 import { apiRoutes } from "const/apiRoutes"
 
+const initialTaskState = {
+  tasks: {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+    sunday: [],
+    templates: [],
+  },
+  dispatch: () => {},
+}
+
 function App({ Component, pageProps }: AppProps) {
-  const initialTaskState = {
-    tasks: {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-      saturday: [],
-      sunday: [],
-      templates: [],
-    },
-    dispatch: () => {},
-  }
   const [taskState, dispatchTasks] = useReducer(taskReducer, initialTaskState)
 
   useEffect(() => {
@@ -50,3 +51,4 @@ function App({ Component, pageProps }: AppProps) {
 }
 
 export default App
+export { initialTaskState }

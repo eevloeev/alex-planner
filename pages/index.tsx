@@ -16,6 +16,7 @@ import { days } from "const/days"
 import { ColumnFooter } from "components/ColumnFooter"
 import { useCallback, useState } from "react"
 import { Column } from "components/Column"
+import { ColumnTemplates } from "components/ColumnTemplates"
 
 function Home() {
   const [error, setError] = useState<any>(null)
@@ -41,22 +42,7 @@ function Home() {
             setError={setError}
           />
         ))}
-        <Grid
-          item
-          xl={1}
-          xs={8}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <ColumnTitle>ХАБ</ColumnTitle>
-          <Stack direction="column" spacing={2} sx={{ padding: 1 }}>
-            {tasks.templates.map((i) => (
-              <Card key={i.id} task={i} />
-            ))}
-          </Stack>
-        </Grid>
+        <ColumnTemplates setError={setError} />
       </Grid>
       <Dialog open={!!error?.isOpen} onClose={closeError}>
         <DialogTitle>Непредвиденная ошибка</DialogTitle>
