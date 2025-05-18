@@ -10,7 +10,16 @@ async function getStore(name: String) {
 
   const isExists = await fs.existsSync(path)
   if (!isExists) {
-    return null
+    fs.writeFileSync(path, JSON.stringify({
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+      saturday: [],
+      sunday: [],
+      templates: [],
+    }))
   }
 
   const data = await fs.readFileSync(path, "utf8")

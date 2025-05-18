@@ -125,7 +125,7 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
   return (
     <Grid
       item
-      xl={1}
+      lg={1}
       xs={8}
       sx={{
         display: "flex",

@@ -126,7 +126,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
   return (
     <Grid
       item
-      xl={1}
+      lg={1}
       xs={8}
       sx={{
         display: "flex",
