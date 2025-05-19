@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   Paper,
+  TextField,
   Typography,
 } from "@mui/material"
 import { memo, useCallback, useState } from "react"
@@ -28,6 +29,8 @@ interface CardProps {
 
 function Card({ task }: CardProps) {
   const [error, setError] = useState<any>(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editValue, setEditValue] = useState(task.content)
   const { tasks, dispatch: dispatchTasks } = useTasks()
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number
@@ -52,6 +55,60 @@ function Card({ task }: CardProps) {
   const handleClose = useCallback(() => {
     setContextMenu(null)
   }, [setContextMenu])
+
+  const handleDoubleClick = useCallback(() => {
+    setIsEditing(true)
+    setEditValue(task.content)
+  }, [task.content])
+
+  const handleEditChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditValue(event.target.value)
+  }, [])
+
+  const handleEditSave = useCallback(() => {
+    if (!editValue.trim()) return
+    
+    const newTasks = {
+      ...tasks,
+      [task.isTemplate ? "templates" : task.day]: [
+        ...tasks[task.isTemplate ? "templates" : (task.day)].map((i) =>
+          i.id === task.id
+            ? {
+                ...task,
+                content: editValue.trim(),
+              }
+            : i
+        ),
+      ],
+    }
+    
+    apiRequest({
+      ...apiRoutes.v1.editTasks,
+      data: {
+        tasks: newTasks,
+      },
+    })
+      .then(() => {
+        dispatchTasks({
+          type: MapTaskAction.SET_TASKS,
+          payload: newTasks,
+        })
+        setIsEditing(false)
+      })
+      .catch((error) => {
+        console.error(error)
+        setError({ ...error, isOpen: true })
+      })
+  }, [tasks, task, editValue, dispatchTasks])
+
+  const handleEditKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleEditSave()
+    } else if (event.key === "Escape") {
+      setIsEditing(false)
+      setEditValue(task.content)
+    }
+  }, [task.content, handleEditSave])
 
   const toggleIsDone = useCallback(() => {
     const newTasks = {
@@ -156,6 +213,7 @@ function Card({ task }: CardProps) {
   return (
     <Paper
       onContextMenu={handleRightClick}
+      onDoubleClick={handleDoubleClick}
       sx={{
         padding: 2,
         backgroundColor: task.isImportant ? "#fbe38d" : "none",
@@ -168,14 +226,27 @@ function Card({ task }: CardProps) {
         },
       }}
     >
-      <Typography
-        sx={{
-          textDecoration: task.isDone ? "line-through" : "none",
-          lineHeight: 1.3,
-        }}
-      >
-        {task.content}
-      </Typography>
+      {isEditing ? (
+        <TextField
+          value={editValue}
+          onChange={handleEditChange}
+          onBlur={handleEditSave}
+          onKeyDown={handleEditKeyDown}
+          autoFocus
+          multiline
+          variant="standard"
+          fullWidth
+        />
+      ) : (
+        <Typography
+          sx={{
+            textDecoration: task.isDone ? "line-through" : "none",
+            lineHeight: 1.3,
+          }}
+        >
+          {task.content}
+        </Typography>
+      )}
       <Menu
         open={contextMenu !== null}
         onClose={handleClose}
