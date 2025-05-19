@@ -15,6 +15,7 @@ import {
   ChangeEvent,
   Dispatch,
   KeyboardEvent,
+  MouseEventHandler,
   ReactNode,
   useCallback,
   useMemo,
@@ -47,6 +48,8 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
 
   const handleBlur = () => {
     setInputIsOpen(false)
+    createTask(inputValue)
+    setInputValue("")
   }
 
   const createTask = (content: string) => {
@@ -85,8 +88,8 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       setInputIsOpen(false)
-      setInputValue("")
       createTask(inputValue)
+      setInputValue("")
     } else if (event.key === "Escape") {
       setInputIsOpen(false)
     }
@@ -120,6 +123,12 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
     setInputIsOpen(true)
   }, [])
 
+  const onDoubleClickHandle = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
+    if (event.target === event.currentTarget) {
+      setInputIsOpen(true)
+    }
+  }, [])
+
   const filteredTasks = useMemo(() => tasks["templates"], [tasks])
 
   return (
@@ -145,6 +154,7 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
           height: "100%",
           overflowY: "auto",
         }}
+        onDoubleClick={onDoubleClickHandle}
       >
         {inputIsOpen && (
           <Paper sx={{ padding: 2 }}>

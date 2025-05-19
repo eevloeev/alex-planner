@@ -17,6 +17,7 @@ import {
   ChangeEvent,
   Dispatch,
   KeyboardEvent,
+  MouseEventHandler,
   ReactNode,
   useCallback,
   useMemo,
@@ -48,6 +49,8 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
 
   const handleBlur = () => {
     setInputIsOpen(false)
+    createTask(inputValue)
+    setInputValue("")
   }
 
   const createTask = (content: string) => {
@@ -86,8 +89,8 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       setInputIsOpen(false)
-      setInputValue("")
       createTask(inputValue)
+      setInputValue("")
     } else if (event.key === "Escape") {
       setInputIsOpen(false)
     }
@@ -118,6 +121,12 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
     setInputIsOpen(true)
   }, [])
 
+  const onDoubleClickHandle = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
+    if (event.target === event.currentTarget) {
+      setInputIsOpen(true)
+    }
+  }, [])
+
   const filteredTasks = useMemo(
     () => tasks[dayOfWeek as keyof typeof tasks],
     [tasks, dayOfWeek]
@@ -142,6 +151,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
         direction="column"
         spacing={2}
         sx={{ padding: 1, paddingBottom: 8, height: "100%", overflowY: "auto" }}
+        onDoubleClick={onDoubleClickHandle}
       >
         {inputIsOpen && (
           <Paper sx={{ padding: 2 }}>
