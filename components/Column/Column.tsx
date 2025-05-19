@@ -150,7 +150,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
       <Stack
         direction="column"
         spacing={2}
-        sx={{ padding: 1, paddingBottom: 8, height: "100%", overflowY: "auto" }}
+        sx={{ padding: 1, paddingBottom: 24, height: "100%", overflowY: "auto" }}
         onDoubleClick={onDoubleClickHandle}
       >
         {inputIsOpen && (
