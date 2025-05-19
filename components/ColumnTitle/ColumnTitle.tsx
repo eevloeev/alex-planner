@@ -14,6 +14,22 @@ function ColumnTitle({ children, dayOfWeek }: ColumnTitleProps) {
     [dayOfWeek]
   )
 
+  const currentDate = useMemo(() => {
+    if (!dayOfWeek) return null
+    const today = new Date()
+    const dayIndex = getDayByName(dayOfWeek)
+    const diff = dayIndex - (today.getDay() - 1)
+    const targetDate = new Date(today)
+    targetDate.setDate(today.getDate() + diff)
+    
+    const months = [
+      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ]
+    
+    return `${targetDate.getDate()} ${months[targetDate.getMonth()]}`
+  }, [dayOfWeek])
+
   return (
     <Box
       sx={{
@@ -26,10 +42,10 @@ function ColumnTitle({ children, dayOfWeek }: ColumnTitleProps) {
         color={isCurrentDay ? "#EE8B8B" : "primary"}
         sx={{
           textAlign: "center",
-          textTransform: "uppercase",
+          fontSize: 16,
         }}
       >
-        {children}
+        {children}, {currentDate}
       </Typography>
     </Box>
   )

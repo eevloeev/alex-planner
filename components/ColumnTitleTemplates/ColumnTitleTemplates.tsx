@@ -17,7 +17,7 @@ function ColumnTitleTemplates({ children }: ColumnTitleTemplatesProps) {
         color="primary"
         sx={{
           textAlign: "center",
-          textTransform: "uppercase",
+          fontSize: 16,
         }}
       >
         {children}
