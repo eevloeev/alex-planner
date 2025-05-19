@@ -57,6 +57,7 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
     const newTasks = {
       ...tasks,
       [dayOfWeek]: [
+        ...tasks[dayOfWeek as keyof typeof tasks],
         {
           id: uuidv4(),
           content,
@@ -65,7 +66,6 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
           isImportant: false,
           isDone: false,
         },
-        ...tasks[dayOfWeek as keyof typeof tasks],
       ],
     }
     apiRequest({
@@ -153,6 +153,9 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
         sx={{ padding: 1, paddingBottom: 24, height: "100%", overflowY: "auto" }}
         onDoubleClick={onDoubleClickHandle}
       >
+        {filteredTasks.map((i) => (
+          <Card key={i.id} task={i} />
+        ))}
         {inputIsOpen && (
           <Paper sx={{ padding: 2 }}>
             <TextField
@@ -167,9 +170,6 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
             />
           </Paper>
         )}
-        {filteredTasks.map((i) => (
-          <Card key={i.id} task={i} />
-        ))}
       </Stack>
       {footer ?? (
         <ColumnFooter

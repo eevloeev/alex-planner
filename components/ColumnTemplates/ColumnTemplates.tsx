@@ -56,6 +56,7 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
     const newTasks = {
       ...tasks,
       templates: [
+        ...tasks["templates"],
         {
           id: uuidv4(),
           content,
@@ -64,7 +65,6 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
           isImportant: null,
           isDone: null,
         },
-        ...tasks["templates"],
       ],
     }
     apiRequest({
@@ -156,6 +156,9 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
         }}
         onDoubleClick={onDoubleClickHandle}
       >
+        {filteredTasks.map((i) => (
+          <Card key={i.id} task={i} />
+        ))}
         {inputIsOpen && (
           <Paper sx={{ padding: 2 }}>
             <TextField
@@ -170,9 +173,6 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
             />
           </Paper>
         )}
-        {filteredTasks.map((i) => (
-          <Card key={i.id} task={i} />
-        ))}
       </Stack>
       {footer ?? (
         <ColumnFooterTemplates
