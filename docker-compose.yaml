@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    networks:
+      - caddy
+    restart: unless-stopped
+    labels:
+      caddy: alex-planner.projects.eevloeev.dev
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+
+networks:
+  caddy:
+    external: true
