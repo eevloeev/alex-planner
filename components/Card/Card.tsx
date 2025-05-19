@@ -171,6 +171,7 @@ function Card({ task }: CardProps) {
       <Typography
         sx={{
           textDecoration: task.isDone ? "line-through" : "none",
+          lineHeight: 1.3,
         }}
       >
         {task.content}
