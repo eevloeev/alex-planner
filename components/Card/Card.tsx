@@ -158,7 +158,7 @@ function Card({ task }: CardProps) {
       onContextMenu={handleRightClick}
       sx={{
         padding: 2,
-        backgroundColor: task.isImportant ? "#EE8B8B" : "none",
+        backgroundColor: task.isImportant ? "#fbe38d" : "none",
         opacity: task.isDone ? ".5" : "1",
         transition: ".2s background-color",
         ":hover": {
