@@ -53,6 +53,8 @@ function ColumnTemplates({ sx, footer, setError }: ColumnTemplatesProps) {
   }
 
   const createTask = (content: string) => {
+    if (!content) return
+    
     const newTasks = {
       ...tasks,
       templates: [

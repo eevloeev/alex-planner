@@ -54,6 +54,8 @@ function Column({ sx, dayOfWeek, footer, setError }: ColumnProps) {
   }
 
   const createTask = (content: string) => {
+    if (!content) return
+    
     const newTasks = {
       ...tasks,
       [dayOfWeek]: [
